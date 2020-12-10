@@ -41,9 +41,7 @@ namespace CA2
             Employees.Add(PtEmployee1);
             Employees.Add(PtEmployee2);
 
-            lstEmployee.ItemsSource = Employees;
-
-            
+            lstEmployee.ItemsSource = Employees;          
         }
 
         private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,6 +89,7 @@ namespace CA2
                 FulltimeEmployee FtEmployee = new FulltimeEmployee(firstname, surname, salary);
                 tblkMonthlyPay.Text = FtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(FtEmployee);
+                lstEmployee.ItemsSource = filteredEmployees;
             }
             else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
             {
@@ -99,12 +98,13 @@ namespace CA2
                 ParttimeEmployee PtEmployee = new ParttimeEmployee(firstname, surname, hourlyrate, hoursworked);
                 tblkMonthlyPay.Text = PtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(PtEmployee);
+                lstEmployee.ItemsSource = filteredEmployees;
             }
             else
             {
                 MessageBox.Show("Error Must Fill in all necessary values");
             }
-        } //Done
+        } //Semi Done need to fix adding employee wont update list unless filter is called again
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -139,6 +139,7 @@ namespace CA2
 
                     tbxHoursWorked.Clear();
                     tbxHourlyRate.Clear();
+                    lstEmployee.ItemsSource = Employees;
                 }
             }
             else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
@@ -154,6 +155,7 @@ namespace CA2
                     tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
                     tbxSalary.Clear();
+                    lstEmployee.ItemsSource = Employees;
                 }
             }
             else
