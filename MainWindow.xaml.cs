@@ -162,26 +162,34 @@ namespace CA2
             }
         }
 
-        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Needs to be finished
+        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Done
         {
             filteredEmployees.Clear();
             lstEmployee.ItemsSource = null;
 
             if (chkFullTime.IsChecked == true)
             {
-                lstEmployee.ItemsSource = Employees;
+                foreach (Employee employee in Employees)
+                {
+                    if (employee is FulltimeEmployee)
+                    {
+                        filteredEmployees.Add(employee);
+                    }
+                }
+                lstEmployee.ItemsSource = filteredEmployees;
             }
             else
             {
-                if (chkFullTime.IsChecked == true)
+                foreach (Employee employee in Employees)
                 {
-                    foreach (Employee employee in Employees)
+                    if (employee is ParttimeEmployee)
                     {
+                        filteredEmployees.Add(employee);
                     }
-
-                    lstEmployee.ItemsSource = filteredEmployees;
                 }
+                lstEmployee.ItemsSource = filteredEmployees;
             }
+
         }
     }
 }
