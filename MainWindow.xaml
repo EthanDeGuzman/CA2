@@ -8,8 +8,6 @@
         Title="MainWindow" Height="535.2" Width="954.8" Loaded="Window_Loaded">
     
     <Grid>
-        <CheckBox x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="30" Margin="25,21,0,0" VerticalAlignment="Top" Width="93" FontSize="16" Padding="6,-4,0,0" IsChecked="True" />
-        <CheckBox x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="30" Margin="138,21,0,0" VerticalAlignment="Top" Width="138" FontSize="16" Padding="6,-4,0,0" IsChecked="True" />
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="29" Margin="25,51,0,0" TextWrapping="Wrap" Text="EMPLOYEES" VerticalAlignment="Top" Width="106" FontSize="16"/>
         <ListBox x:Name="lstEmployee" HorizontalAlignment="Left" Height="396" Margin="25,85,0,0" VerticalAlignment="Top" Width="251" SelectionChanged="lstEmployee_SelectionChanged">
         </ListBox>
@@ -31,6 +29,8 @@
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="33" Margin="788,161,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnAdd_Click"/>
         <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Height="33" Margin="788,244,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnUpdate_Click"/>
         <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Height="33" Margin="788,320,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnDelete_Click"/>
+        <RadioButton x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="31" Margin="25,20,0,0" VerticalAlignment="Top" Width="106" GroupName="Employee" FontSize="17" Padding="4,-5,0,0" Checked="chkFullTime_Checked"/>
+        <RadioButton x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="31" Margin="136,20,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.505,0.776" GroupName="Employee" FontSize="17" Padding="4,-5,0,0" Checked="chkFullTime_Checked" IsChecked="True"/>
 
     </Grid>
 </Window>

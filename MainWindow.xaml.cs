@@ -22,6 +22,7 @@ namespace CA2
     public partial class MainWindow : Window
     {
         ObservableCollection<Employee> Employees = new ObservableCollection<Employee>();
+        ObservableCollection<Employee> filteredEmployees = new ObservableCollection<Employee>();
         public MainWindow()
         {
             InitializeComponent();
@@ -29,10 +30,10 @@ namespace CA2
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            FulltimeEmployee FtEmployee1 = new FulltimeEmployee("Ethan", "De Guzman", 500);
-            FulltimeEmployee FtEmployee2 = new FulltimeEmployee("Ethan", "De Guzman", 300);
-            ParttimeEmployee PtEmployee1 = new ParttimeEmployee("Ethan", "De Guzman", 5, 2);
-            ParttimeEmployee PtEmployee2 = new ParttimeEmployee("Ethan", "De Guzman", 4, 3);
+            FulltimeEmployee FtEmployee1 = new FulltimeEmployee("Ethan", "De Guzman", 5000);
+            FulltimeEmployee FtEmployee2 = new FulltimeEmployee("Linda", "Martin", 3000);
+            ParttimeEmployee PtEmployee1 = new ParttimeEmployee("Barbara", "Wilson", 15, 10);
+            ParttimeEmployee PtEmployee2 = new ParttimeEmployee("Mark", "Jones", 13, 15);
 
             Employees.Add(FtEmployee1);
             Employees.Add(FtEmployee2);
@@ -42,6 +43,7 @@ namespace CA2
 
             lstEmployee.ItemsSource = Employees;
 
+            
         }
 
         private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,7 +63,7 @@ namespace CA2
                     tbxHourlyRate.Clear();
                 }
             }
-            if (chkPartTime.IsChecked == true)
+            else if (chkPartTime.IsChecked == true)
             {
                 ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
                 if (selectedEmployee != null)
@@ -76,21 +78,21 @@ namespace CA2
                     tbxSalary.Clear();
                 }
             }
-        }
+        } // Semi Done
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             string firstname = tbxFirstName.Text;
             string surname = tbxSurname.Text;
 
-            if (btnFT.IsChecked == true)
+            if (btnFT.IsChecked == true && tbxSalary.Text != "")
             {
                 decimal salary = decimal.Parse(tbxSalary.Text);
                 FulltimeEmployee FtEmployee = new FulltimeEmployee(firstname, surname, salary);
                 tblkMonthlyPay.Text = FtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(FtEmployee);
             }
-            else
+            else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
             {
                 double hoursworked = double.Parse(tbxHoursWorked.Text);
                 decimal hourlyrate = decimal.Parse(tbxHourlyRate.Text);
@@ -98,7 +100,11 @@ namespace CA2
                 tblkMonthlyPay.Text = PtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(PtEmployee);
             }
-        }
+            else
+            {
+                MessageBox.Show("Error Must Fill in all necessary values");
+            }
+        } //Done
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -110,17 +116,17 @@ namespace CA2
             btnFT.IsChecked = false;
             btnPT.IsChecked = false;
             tblkMonthlyPay.Text = "";
-        }
+        } //Done
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Employee selectedEmployee = lstEmployee.SelectedItem as Employee;
             Employees.Remove(selectedEmployee);
-        }
+        } //Done
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private void btnUpdate_Click(object sender, RoutedEventArgs e) // Needs to be finished once sort is finished
         {
-            if (btnFT.IsChecked == true)
+            if (btnFT.IsChecked == true && tbxSalary.Text != "")
             {
                 FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
                 if (selectedEmployee != null)
@@ -128,17 +134,14 @@ namespace CA2
                     selectedEmployee.firstname = tbxFirstName.Text;
                     selectedEmployee.surname = tbxSurname.Text;
 
-                    //tbxSalary.Text = Convert.ToString(selectedEmployee.salary);
-                    //btnFT.IsChecked = true;
-                    //tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                    selectedEmployee.salary = decimal.Parse(tbxSalary.Text);
+                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    //tbxHoursWorked.Clear();
-                    //tbxHourlyRate.Clear();
-
-                    Employees.Add(selectedEmployee);
+                    tbxHoursWorked.Clear();
+                    tbxHourlyRate.Clear();
                 }
             }
-            else if (btnPT.IsChecked == true)
+            else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
             {
                 ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
                 if (selectedEmployee != null)
@@ -146,19 +149,38 @@ namespace CA2
                     selectedEmployee.firstname = tbxFirstName.Text;
                     selectedEmployee.surname = tbxSurname.Text;
 
-                    //tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
-                    //tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
-                    //btnPT.IsChecked = false;
-                    //tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                    selectedEmployee.hoursworked = double.Parse(tbxHoursWorked.Text);
+                    selectedEmployee.hourlyrate = decimal.Parse(tbxHourlyRate.Text);
+                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    //tbxSalary.Clear();
-
-                    Employees.Add(selectedEmployee);
+                    tbxSalary.Clear();
                 }
             }
             else
             {
                 MessageBox.Show("Error Must Select either Full time Employee or Part time Employee");
+            }
+        }
+
+        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Needs to be finished
+        {
+            filteredEmployees.Clear();
+            lstEmployee.ItemsSource = null;
+
+            if (chkFullTime.IsChecked == true)
+            {
+                lstEmployee.ItemsSource = Employees;
+            }
+            else
+            {
+                if (chkFullTime.IsChecked == true)
+                {
+                    foreach (Employee employee in Employees)
+                    {
+                    }
+
+                    lstEmployee.ItemsSource = filteredEmployees;
+                }
             }
         }
     }
