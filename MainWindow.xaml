@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CA2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="535.2" Width="954.8">
+        Title="MainWindow" Height="535.2" Width="954.8" Loaded="Window_Loaded">
     <Grid>
-        <CheckBox x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="30" Margin="25,21,0,0" VerticalAlignment="Top" Width="93" FontSize="16" Padding="6,-4,0,0" />
-        <CheckBox x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="30" Margin="138,21,0,0" VerticalAlignment="Top" Width="138" FontSize="16" Padding="6,-4,0,0" />
+        <CheckBox x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="30" Margin="25,21,0,0" VerticalAlignment="Top" Width="93" FontSize="16" Padding="6,-4,0,0" IsChecked="True" />
+        <CheckBox x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="30" Margin="138,21,0,0" VerticalAlignment="Top" Width="138" FontSize="16" Padding="6,-4,0,0" IsChecked="True" />
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="29" Margin="25,51,0,0" TextWrapping="Wrap" Text="EMPLOYEES" VerticalAlignment="Top" Width="106" FontSize="16"/>
-        <ListBox x:Name="lstEmployee" HorizontalAlignment="Left" Height="396" Margin="25,85,0,0" VerticalAlignment="Top" Width="251"/>
+        <ListBox x:Name="lstEmployee" HorizontalAlignment="Left" Height="396" Margin="25,85,0,0" VerticalAlignment="Top" Width="251" SelectionChanged="lstEmployee_SelectionChanged"/>
         <Label x:Name="label" Content="First Name&#xD;&#xA;" HorizontalAlignment="Left" Margin="318,85,0,0" VerticalAlignment="Top" Height="33" Width="85" FontSize="16"/>
         <Label x:Name="label1" Content="Surname" HorizontalAlignment="Left" Height="32" Margin="318,133,0,0" VerticalAlignment="Top" Width="85" FontSize="16"/>
         <TextBox x:Name="tbxFirstName" HorizontalAlignment="Left" Height="33" Margin="459,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" FontSize="14"/>
@@ -23,10 +23,10 @@
         <TextBox x:Name="tbxSalary" HorizontalAlignment="Left" Height="32" Margin="459,267,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" FontSize="16"/>
         <TextBox x:Name="tbxHoursWorked" HorizontalAlignment="Left" Height="35" Margin="459,324,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" FontSize="16"/>
         <TextBox x:Name="tbxHourlyRate" HorizontalAlignment="Left" Height="32" Margin="459,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160" FontSize="16"/>
-        <TextBlock x:Name="tblkMonthlyPay" HorizontalAlignment="Left" Height="38" Margin="484,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135" FontSize="16"/>
+        <TextBlock x:Name="tblkMonthlyPay" HorizontalAlignment="Left" Height="38" Margin="464,443,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135" FontSize="16" Padding="0,6,0,0"/>
         <Label x:Name="label5" Content="Monthly Pay:" HorizontalAlignment="Left" Height="38" Margin="355,443,0,0" VerticalAlignment="Top" Width="109" FontSize="16"/>
-        <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Height="33" Margin="788,85,0,0" VerticalAlignment="Top" Width="117" FontSize="16"/>
-        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="33" Margin="788,161,0,0" VerticalAlignment="Top" Width="117" FontSize="16"/>
+        <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Height="33" Margin="788,85,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnClear_Click"/>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="33" Margin="788,161,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnAdd_Click"/>
         <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Height="33" Margin="788,244,0,0" VerticalAlignment="Top" Width="117" FontSize="16"/>
         <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Height="33" Margin="788,320,0,0" VerticalAlignment="Top" Width="117" FontSize="16"/>
 
