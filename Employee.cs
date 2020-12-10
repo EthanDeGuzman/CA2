@@ -11,8 +11,8 @@ namespace CA2
         protected string FirstName;
         protected string Surname;
 
-        public string firstname { get { return FirstName; } }
-        public string surname { get { return Surname; } }
+        public string firstname { get { return FirstName; } set { FirstName = value;} }
+        public string surname { get { return Surname; } set { Surname = value; } }
         public Employee(string FirstName, string Surname)
         {
             this.FirstName = FirstName;

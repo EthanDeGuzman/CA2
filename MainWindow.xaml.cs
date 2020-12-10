@@ -76,15 +76,13 @@ namespace CA2
                     tbxSalary.Clear();
                 }
             }
-
-
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             string firstname = tbxFirstName.Text;
             string surname = tbxSurname.Text;
-            
+
             if (btnFT.IsChecked == true)
             {
                 decimal salary = decimal.Parse(tbxSalary.Text);
@@ -100,7 +98,6 @@ namespace CA2
                 tblkMonthlyPay.Text = PtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(PtEmployee);
             }
-
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
@@ -113,6 +110,56 @@ namespace CA2
             btnFT.IsChecked = false;
             btnPT.IsChecked = false;
             tblkMonthlyPay.Text = "";
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Employee selectedEmployee = lstEmployee.SelectedItem as Employee;
+            Employees.Remove(selectedEmployee);
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnFT.IsChecked == true)
+            {
+                FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
+                if (selectedEmployee != null)
+                {
+                    selectedEmployee.firstname = tbxFirstName.Text;
+                    selectedEmployee.surname = tbxSurname.Text;
+
+                    //tbxSalary.Text = Convert.ToString(selectedEmployee.salary);
+                    //btnFT.IsChecked = true;
+                    //tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+
+                    //tbxHoursWorked.Clear();
+                    //tbxHourlyRate.Clear();
+
+                    Employees.Add(selectedEmployee);
+                }
+            }
+            else if (btnPT.IsChecked == true)
+            {
+                ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
+                if (selectedEmployee != null)
+                {
+                    selectedEmployee.firstname = tbxFirstName.Text;
+                    selectedEmployee.surname = tbxSurname.Text;
+
+                    //tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
+                    //tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
+                    //btnPT.IsChecked = false;
+                    //tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+
+                    //tbxSalary.Clear();
+
+                    Employees.Add(selectedEmployee);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error Must Select either Full time Employee or Part time Employee");
+            }
         }
     }
 }
