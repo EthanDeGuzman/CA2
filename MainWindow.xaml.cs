@@ -21,17 +21,21 @@ namespace CA2
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<Employee> Employees = new ObservableCollection<Employee>();
-        ObservableCollection<Employee> filteredEmployees = new ObservableCollection<Employee>();
+        ObservableCollection<Employee> Employees = new ObservableCollection<Employee>(); // Observable Collection that contains all Employees
+        ObservableCollection<Employee> filteredEmployees = new ObservableCollection<Employee>(); // Observable Collection that contains the filtered employees, This is sorted alphabetically through surname
+
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); // Starts the window
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e) // When the Window is Loaded execute this code
         {
+            // Adding Two Full Time Employees
             FulltimeEmployee FtEmployee1 = new FulltimeEmployee("Ethan", "De Guzman", 5000);
             FulltimeEmployee FtEmployee2 = new FulltimeEmployee("Linda", "Martin", 3000);
+
+            // Adding Two Part Time Employees
             ParttimeEmployee PtEmployee1 = new ParttimeEmployee("Barbara", "Wilson", 15, 10);
             ParttimeEmployee PtEmployee2 = new ParttimeEmployee("Mark", "Jones", 13, 15);
 
@@ -41,75 +45,84 @@ namespace CA2
             Employees.Add(PtEmployee1);
             Employees.Add(PtEmployee2);
 
-            lstEmployee.ItemsSource = Employees;          
+            Sort(); // Calls The Sort Method which will sort the Employees surname alphabetically
         }
 
-        private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e) // Checks when an object is selected in the list box
         {
-            if (chkFullTime.IsChecked == true)
+            foreach (Employee employee in Employees) // For each loop that will loop the through the code depending on how many employees are in the employee class
             {
-                FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
-                if (selectedEmployee != null)
+                if (employee is FulltimeEmployee) // If the employee selected is a Full Time Employee execute this
                 {
-                    tbxFirstName.Text = selectedEmployee.firstname;
-                    tbxSurname.Text = selectedEmployee.surname;
-                    tbxSalary.Text = Convert.ToString(selectedEmployee.salary);
-                    btnFT.IsChecked = true;
-                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                    FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
+                    if (selectedEmployee != null) // Make sure selectedEmployee is not null to avoid errors
+                    {
+                        // Displays the Details on the respective text box and buttons
+                        tbxFirstName.Text = selectedEmployee.firstname;
+                        tbxSurname.Text = selectedEmployee.surname;
+                        tbxSalary.Text = Convert.ToString(selectedEmployee.salary);
+                        btnFT.IsChecked = true;
+                        tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    tbxHoursWorked.Clear();
-                    tbxHourlyRate.Clear();
+                        //Clears Unneccessary Details
+                        tbxHoursWorked.Clear();
+                        tbxHourlyRate.Clear();
+                    }
+                }
+                else if (employee is ParttimeEmployee)
+                {
+                    ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
+                    if (selectedEmployee != null) // Make sure selectedEmployee is not null to avoid errors
+                    {
+                        // Similar to the last if statement
+                        tbxFirstName.Text = selectedEmployee.firstname;
+                        tbxSurname.Text = selectedEmployee.surname;
+                        tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
+                        tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
+                        btnPT.IsChecked = true;
+                        tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+
+                        tbxSalary.Clear();
+                    }
                 }
             }
-            else if (chkPartTime.IsChecked == true)
-            {
-                ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
-                if (selectedEmployee != null)
-                {
-                    tbxFirstName.Text = selectedEmployee.firstname;
-                    tbxSurname.Text = selectedEmployee.surname;
-                    tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
-                    tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
-                    btnPT.IsChecked = false;
-                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    tbxSalary.Clear();
-                }
-            }
-        } // Semi Done
+        }//Done
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, RoutedEventArgs e) // When Button is click Add a new employee
         {
+            // Variables that holds the name of the employee
             string firstname = tbxFirstName.Text;
             string surname = tbxSurname.Text;
 
-            if (btnFT.IsChecked == true && tbxSalary.Text != "")
+            if (btnFT.IsChecked == true && tbxSalary.Text != "") // Makes sure Salary is not null
             {
-                decimal salary = decimal.Parse(tbxSalary.Text);
-                FulltimeEmployee FtEmployee = new FulltimeEmployee(firstname, surname, salary);
-                tblkMonthlyPay.Text = FtEmployee.CalculateMonthlyPay().ToString("€0.##");
-                Employees.Add(FtEmployee);
-                lstEmployee.ItemsSource = Employees;
+                decimal salary = decimal.Parse(tbxSalary.Text); // Parses the Text value of the Salary Text box to a decimal
+                FulltimeEmployee FtEmployee = new FulltimeEmployee(firstname, surname, salary); // Creates a new FullTime Employee
+                tblkMonthlyPay.Text = FtEmployee.CalculateMonthlyPay().ToString("€0.##"); // Calculates the MonthlyPay and Formats it to two decimal places
+                Employees.Add(FtEmployee); // Adds the new Employee to the Employee Collection
+                Filter(); // Calls Filter method to check if filtering is needed (Sort Method is inside Filter method to automatically Sort)
             }
-            else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
+            else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "") // Makes sure Hourly Rate and Hours Worked is not null
             {
+                // Similar to last if statement
                 double hoursworked = double.Parse(tbxHoursWorked.Text);
                 decimal hourlyrate = decimal.Parse(tbxHourlyRate.Text);
                 ParttimeEmployee PtEmployee = new ParttimeEmployee(firstname, surname, hourlyrate, hoursworked);
                 tblkMonthlyPay.Text = PtEmployee.CalculateMonthlyPay().ToString("€0.##");
                 Employees.Add(PtEmployee);
-                lstEmployee.ItemsSource = Employees;
+                Filter();
             }
             else
             {
-                MessageBox.Show("Error Must Fill in all necessary values");
+                MessageBox.Show("Error Must Fill in all necessary values"); // Gives out an Error if required values aren't entered
             }
 
-            Filter();
-        } //Semi Done need to fix adding employee wont update list unless filter is called again
+        } 
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
+        private void btnClear_Click(object sender, RoutedEventArgs e) // When Button is click clear all fields so user can enter new details
         {
+            // Clears all the text boxes and buttons
             tbxFirstName.Clear();
             tbxSurname.Clear();
             tbxSalary.Clear();
@@ -118,17 +131,19 @@ namespace CA2
             btnFT.IsChecked = false;
             btnPT.IsChecked = false;
             tblkMonthlyPay.Text = "";
-        } //Done
+        }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        private void btnDelete_Click(object sender, RoutedEventArgs e) // When Button is click delete the selected employee
         {
             Employee selectedEmployee = lstEmployee.SelectedItem as Employee;
-            Employees.Remove(selectedEmployee);
-        } //Done
+            Employees.Remove(selectedEmployee); // Removes the selected employee from the list
+            Filter(); // Calls filter method
+        }
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e) // Needs to be finished once sort is finished
+        private void btnUpdate_Click(object sender, RoutedEventArgs e) // When Button is click update the details of the selected employee
         {
-            if (btnFT.IsChecked == true && tbxSalary.Text != "")
+            // Similar code to the Add_Click Event but this time we set the values of the text box to the variables to update them
+            if (btnFT.IsChecked == true && tbxSalary.Text != "") 
             {
                 FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
                 if (selectedEmployee != null)
@@ -141,7 +156,7 @@ namespace CA2
 
                     tbxHoursWorked.Clear();
                     tbxHourlyRate.Clear();
-                    lstEmployee.ItemsSource = Employees;
+                    Filter();
                 }
             }
             else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
@@ -157,7 +172,7 @@ namespace CA2
                     tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
                     tbxSalary.Clear();
-                    lstEmployee.ItemsSource = Employees;
+                    Filter();
                 }
             }
             else
@@ -166,17 +181,17 @@ namespace CA2
             }
         }
 
-        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Done
+        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Starts Filtering when one of the filter button is clicked
         {
             Filter();
         }
 
-        private void Filter()
+        private void Filter() // Filter Method that checks if the list needs filtering and filters it if needed
         {
-            filteredEmployees.Clear();
-            lstEmployee.ItemsSource = null;
+            filteredEmployees.Clear(); // Clears the collection filtered employees to make sure nothing is in it
+            lstEmployee.ItemsSource = null; // Clears the List box so we can update it
 
-            if (chkFullTime.IsChecked == true)
+            if (chkFullTime.IsChecked == true) // if FT check box is clicked execute
             {
                 foreach (Employee employee in Employees)
                 {
@@ -185,9 +200,9 @@ namespace CA2
                         filteredEmployees.Add(employee);
                     }
                 }
-                lstEmployee.ItemsSource = filteredEmployees;
+                lstEmployee.ItemsSource = filteredEmployees; // Adds filtered employees back to the list
             }
-            else
+            else // Similar to if statement
             {
                 foreach (Employee employee in Employees)
                 {
@@ -199,6 +214,23 @@ namespace CA2
                 lstEmployee.ItemsSource = filteredEmployees;
             }
 
+            Sort(); // Calls the sort method to make sure the list is always sorted alphabetically after filtering
+        }
+
+        private void Sort() // Sort method that sorts the list alphabetically through surname. Checks if we should print out filtered list or All employee list
+        {
+            if (chkFullTime.IsChecked == true || chkPartTime.IsChecked == true) // If any filtering is active make sure to sort the filtering list and print that out
+            {
+                lstEmployee.ItemsSource = null;
+                filteredEmployees = new ObservableCollection<Employee>(filteredEmployees.OrderBy(x => x.surname)); // Sorts new collection alphabetically by surname
+                lstEmployee.ItemsSource = filteredEmployees;
+            }
+            else // Similar to if statement but we sort through employees not filtered
+            {
+                lstEmployee.ItemsSource = null;
+                Employees = new ObservableCollection<Employee>(Employees.OrderBy(x => x.surname));
+                lstEmployee.ItemsSource = Employees;
+            }
         }
     }
 }
