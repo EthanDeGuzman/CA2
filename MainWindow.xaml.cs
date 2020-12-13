@@ -86,8 +86,7 @@ namespace CA2
                     }
                 }
             }
-
-        }//Done
+        }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) // When Button is click Add a new employee
         {
@@ -181,17 +180,24 @@ namespace CA2
             }
         }
 
-        private void chkFullTime_Checked(object sender, RoutedEventArgs e) // Starts Filtering when one of the filter button is clicked
+        private void chkFullTime_Click(object sender, RoutedEventArgs e) // Starts Filtering when clicked
         {
             Filter();
         }
-
         private void Filter() // Filter Method that checks if the list needs filtering and filters it if needed
         {
             filteredEmployees.Clear(); // Clears the collection filtered employees to make sure nothing is in it
             lstEmployee.ItemsSource = null; // Clears the List box so we can update it
 
-            if (chkFullTime.IsChecked == true) // if FT check box is clicked execute
+            if (chkFullTime.IsChecked == true && chkPartTime.IsChecked == true) // If both checkbox are ticked then display all employees
+            {
+                foreach (Employee employee in Employees)
+                {
+                    filteredEmployees.Add(employee);
+                }
+                lstEmployee.ItemsSource = Employees; // Adds employees back into the list
+            }
+            else if (chkFullTime.IsChecked == true) // if FT check box is clicked execute
             {
                 foreach (Employee employee in Employees)
                 {

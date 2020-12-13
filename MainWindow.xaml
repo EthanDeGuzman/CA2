@@ -29,8 +29,8 @@
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="33" Margin="788,161,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnAdd_Click"/>
         <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Height="33" Margin="788,244,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnUpdate_Click"/>
         <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Height="33" Margin="788,320,0,0" VerticalAlignment="Top" Width="117" FontSize="16" Click="btnDelete_Click"/>
-        <RadioButton x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="31" Margin="25,20,0,0" VerticalAlignment="Top" Width="106" GroupName="Employee" FontSize="17" Padding="4,-5,0,0" Checked="chkFullTime_Checked"/>
-        <RadioButton x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="31" Margin="136,20,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.505,0.776" GroupName="Employee" FontSize="17" Padding="4,-5,0,0" Checked="chkFullTime_Checked"/>
+        <CheckBox x:Name="chkFullTime" Content="Full Time" HorizontalAlignment="Left" Height="20" Margin="25,17,0,0" VerticalAlignment="Top" Width="106" FontSize="16" Padding="0,-4,0,0" Click="chkFullTime_Click"/>
+        <CheckBox x:Name="chkPartTime" Content="Part Time" HorizontalAlignment="Left" Height="20" Margin="136,17,0,0" VerticalAlignment="Top" Width="100" FontSize="16" Padding="0,-4,0,0" Click="chkFullTime_Click"/>
 
     </Grid>
 </Window>
