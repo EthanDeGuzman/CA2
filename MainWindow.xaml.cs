@@ -50,8 +50,8 @@ namespace CA2
 
         private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e) // Checks when an object is selected in the list box
         {
-            foreach (Employee employee in Employees) // For each loop that will loop the through the code depending on how many employees are in the employee class
-            {
+                Employee employee = lstEmployee.SelectedItem as Employee;
+
                 if (employee is FulltimeEmployee) // If the employee selected is a Full Time Employee execute this
                 {
                     FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
@@ -85,7 +85,6 @@ namespace CA2
                         tbxSalary.Clear();
                     }
                 }
-            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) // When Button is click Add a new employee
@@ -142,7 +141,9 @@ namespace CA2
         private void btnUpdate_Click(object sender, RoutedEventArgs e) // When Button is click update the details of the selected employee
         {
             // Similar code to the Add_Click Event but this time we set the values of the text box to the variables to update them
-            if (btnFT.IsChecked == true && tbxSalary.Text != "") 
+            Employee employee = lstEmployee.SelectedItem as Employee;
+
+            if (employee is FulltimeEmployee && tbxSalary.Text != "") 
             {
                 FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
                 if (selectedEmployee != null)
@@ -158,7 +159,7 @@ namespace CA2
                     Filter();
                 }
             }
-            else if (btnPT.IsChecked == true && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
+            else if (employee is ParttimeEmployee && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
             {
                 ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
                 if (selectedEmployee != null)
@@ -195,7 +196,7 @@ namespace CA2
                 {
                     filteredEmployees.Add(employee);
                 }
-                lstEmployee.ItemsSource = Employees; // Adds employees back into the list
+                lstEmployee.ItemsSource = filteredEmployees; // Adds employees back into the list
             }
             else if (chkFullTime.IsChecked == true) // if FT check box is clicked execute
             {
