@@ -19,6 +19,11 @@ namespace CA2
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
+    /*==============================================================                                              
+        GitHub Link = https://github.com/EthanDeguzman/CA2 
+    ==============================================================*/
+
     public partial class MainWindow : Window
     {
         ObservableCollection<Employee> Employees = new ObservableCollection<Employee>(); // Observable Collection that contains all Employees
@@ -50,13 +55,12 @@ namespace CA2
 
         private void lstEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e) // Checks when an object is selected in the list box
         {
-                Employee employee = lstEmployee.SelectedItem as Employee;
-
+            Employee employee = lstEmployee.SelectedItem as Employee;
+            if (employee != null) // Make sure selectedEmployee is not null to avoid errors
+            {
                 if (employee is FulltimeEmployee) // If the employee selected is a Full Time Employee execute this
                 {
                     FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
-                    if (selectedEmployee != null) // Make sure selectedEmployee is not null to avoid errors
-                    {
                         // Displays the Details on the respective text box and buttons
                         tbxFirstName.Text = selectedEmployee.firstname;
                         tbxSurname.Text = selectedEmployee.surname;
@@ -67,24 +71,20 @@ namespace CA2
                         //Clears Unneccessary Details
                         tbxHoursWorked.Clear();
                         tbxHourlyRate.Clear();
-                    }
                 }
                 else if (employee is ParttimeEmployee)
                 {
                     ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
-                    if (selectedEmployee != null) // Make sure selectedEmployee is not null to avoid errors
-                    {
-                        // Similar to the last if statement
-                        tbxFirstName.Text = selectedEmployee.firstname;
-                        tbxSurname.Text = selectedEmployee.surname;
-                        tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
-                        tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
-                        btnPT.IsChecked = true;
-                        tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                    tbxFirstName.Text = selectedEmployee.firstname;
+                    tbxSurname.Text = selectedEmployee.surname;
+                    tbxHoursWorked.Text = Convert.ToString(selectedEmployee.hoursworked);
+                    tbxHourlyRate.Text = Convert.ToString(selectedEmployee.hourlyrate);
+                    btnPT.IsChecked = true;
+                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                        tbxSalary.Clear();
-                    }
+                    tbxSalary.Clear();
                 }
+            }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) // When Button is click Add a new employee
@@ -142,42 +142,44 @@ namespace CA2
         {
             // Similar code to the Add_Click Event but this time we set the values of the text box to the variables to update them
             Employee employee = lstEmployee.SelectedItem as Employee;
-
-            if (employee is FulltimeEmployee && tbxSalary.Text != "") 
+            if(employee != null)
             {
-                FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
-                if (selectedEmployee != null)
+                if (employee is FulltimeEmployee && tbxSalary.Text != "")
                 {
-                    selectedEmployee.firstname = tbxFirstName.Text;
-                    selectedEmployee.surname = tbxSurname.Text;
+                    FulltimeEmployee selectedEmployee = lstEmployee.SelectedItem as FulltimeEmployee;
+                    if (selectedEmployee != null)
+                    {
+                        selectedEmployee.firstname = tbxFirstName.Text;
+                        selectedEmployee.surname = tbxSurname.Text;
 
-                    selectedEmployee.salary = decimal.Parse(tbxSalary.Text);
-                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                        selectedEmployee.salary = decimal.Parse(tbxSalary.Text);
+                        tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    tbxHoursWorked.Clear();
-                    tbxHourlyRate.Clear();
-                    Filter();
+                        tbxHoursWorked.Clear();
+                        tbxHourlyRate.Clear();
+                        Filter();
+                    }
                 }
-            }
-            else if (employee is ParttimeEmployee && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
-            {
-                ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
-                if (selectedEmployee != null)
+                else if (employee is ParttimeEmployee && tbxHourlyRate.Text != "" && tbxHoursWorked.Text != "")
                 {
-                    selectedEmployee.firstname = tbxFirstName.Text;
-                    selectedEmployee.surname = tbxSurname.Text;
+                    ParttimeEmployee selectedEmployee = lstEmployee.SelectedItem as ParttimeEmployee;
+                    if (selectedEmployee != null)
+                    {
+                        selectedEmployee.firstname = tbxFirstName.Text;
+                        selectedEmployee.surname = tbxSurname.Text;
 
-                    selectedEmployee.hoursworked = double.Parse(tbxHoursWorked.Text);
-                    selectedEmployee.hourlyrate = decimal.Parse(tbxHourlyRate.Text);
-                    tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
+                        selectedEmployee.hoursworked = double.Parse(tbxHoursWorked.Text);
+                        selectedEmployee.hourlyrate = decimal.Parse(tbxHourlyRate.Text);
+                        tblkMonthlyPay.Text = selectedEmployee.CalculateMonthlyPay().ToString("€0.##");
 
-                    tbxSalary.Clear();
-                    Filter();
+                        tbxSalary.Clear();
+                        Filter();
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Error Must Select either Full time Employee or Part time Employee");
+                else
+                {
+                    MessageBox.Show("Error Must Select either Full time Employee or Part time Employee");
+                }
             }
         }
 
